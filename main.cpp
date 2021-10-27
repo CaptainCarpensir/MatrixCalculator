@@ -8,37 +8,46 @@ void fillMatrix(Matrix& A, int m, int n);
 int main()
 {
     //Variables
-    char keyInput;
+    bool finished = false;
+    Matrix running_matrix(1,1);
+    bool input_assist = false;
 
-    cin >> keyInput;
-    switch (keyInput)
+    enum Command
     {
-        //Addition
-        case 'a':
-            int m, n;
-            cin >> m;
-            cin >> n;
-            Matrix A(m,n);
-            Matrix B(m,n);
-            fillMatrix(A, m, n);
-            fillMatrix(B, m, n);
-            //cout << A << endl;
-            cout << A * B << "\n" << endl;
-            cout << A + B << "\n" << endl;
-            cout << A - B << "\n" << endl;
-            cout << A * 4 << "\n" << endl;
-            break;
+        help, quit, toggleinput, multiply, add, subtract, invert, echelon, gaussjordan, determinant
+    };
+
+    //Calculator Loop
+    while(!finished)
+    {
+        Command input = help;
+        switch (input)
+        {
+            //QoL Commands
+            case help:
+                break;
+            case quit:
+                finished = true;
+                break;
+            case toggleinput:
+                input_assist = !input_assist;
+                break;
+            //Matrix Operation Commands
+        }
     }
-    
 }
 
 //Fills a matrix of size M x N based off of standard input stream
-void fillMatrix(Matrix& A, int m, int n)
+void fillMatrix(Matrix& A, int m, int n, bool input_assist)
 {
     for(int i = 0; i < m; i++)
     {
         for(int j = 0; j < n; j++)
         {
+            if(input_assist)
+            {
+                cout << "Enter val in pos (" << i + 1 << ", " << j + 1 << "): ";
+            }
             float val;
             cin >> val;
             A.insertVal(val, i, j);
