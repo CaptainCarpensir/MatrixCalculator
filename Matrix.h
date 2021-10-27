@@ -17,6 +17,9 @@ class Matrix
         //Constructor
         Matrix(int rows, int cols);
 
+        //Copy Constructor
+        Matrix(Matrix& A);
+
         //Destructor
         ~Matrix();
 
@@ -33,8 +36,14 @@ class Matrix
 
         float getVal(int row, int col) const;
 
-        //Returns matrix, adds calling matrix and parameter matrix (A = B + C)
-        Matrix& operator+(const Matrix& A);
+        //Arithmetic matrix operations
+        Matrix operator+(const Matrix& A) const;
+
+        Matrix operator-(const Matrix& A) const;
+
+        Matrix operator*(const Matrix& A) const;
+
+        Matrix operator*(const float val) const;
 };
 
 #endif

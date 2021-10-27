@@ -25,6 +25,23 @@ Matrix::Matrix(int rows, int cols)
     }
 }
 
+//Copy Constructor
+Matrix::Matrix(Matrix& A)
+{
+    m = A.m;
+    n = A.n;
+    matrix = new float*[m];
+
+    for(int i = 0; i < m; i++)
+    {
+        matrix[i] = new float[n];
+        for(int j = 0; j < n; j++)
+        {
+            matrix[i][j] = A.matrix[i][j];
+        }
+    }
+}
+
 //Destructor
 Matrix::~Matrix()
 {
@@ -51,13 +68,9 @@ void Matrix::operator=(Matrix& A)
     delete[] matrix;
 
     //Setting variables
-    cout << "what" << endl;
     m = A.m;
     n = A.n;
-    cout << "help" << endl;
     matrix = new float*[m];
-
-    cout << "help" << endl;
 
     //Creating 2D array
     for(int i = 0; i < m; i++)
@@ -79,7 +92,7 @@ ostream& operator<<(ostream& os, const Matrix& matrix)
         {
             cout << matrix.matrix[i][j] << " ";
         }
-        cout << endl;
+        if(i < matrix.m - 1) cout << endl;
     }
 
     return os;
@@ -108,12 +121,12 @@ float Matrix::getVal(int row, int col) const
 }
 
 //Returns matrix, adds calling matrix and parameter matrix (A = B + C)
-Matrix& Matrix::operator+(const Matrix& A)
+Matrix Matrix::operator+(const Matrix& A) const
 {
-    //If the matrices have different sizes, it returns the left hand matrix (in this case, B)
-    if(m != A.m || n != A.n) return *this;
-
     Matrix answer(m,n);
+
+    //If the matrices have different sizes, it returns the left hand matrix (in this case, B)
+    if(m != A.m || n != A.n) return answer;
 
     for(int i = 0; i < m; i++)
     {
@@ -121,6 +134,60 @@ Matrix& Matrix::operator+(const Matrix& A)
         {
             //Adds values together, inserts in same place
             answer.insertVal(this->getVal(i,j) + A.getVal(i,j),i,j);
+        }
+    }
+
+    return answer;
+}
+
+Matrix Matrix::operator*(const Matrix& A) const
+{
+    Matrix answer(m, A.n);
+
+    if(n != A.m) return answer;
+
+    for(int i = 0; i < m; i++)
+    {
+        for(int j = 0; j < A.n; j++)
+        {
+            //Insert value of the dot product of the vectors at row(i) of this matrix, and col(j) of A
+            float sum = 0; 
+            for(int k = 0; k < n; k++)
+            {
+                sum += (matrix[i][k] * A.matrix[k][j]);
+                answer.matrix[i][j] = sum;
+            }
+        }
+    }
+}
+
+Matrix Matrix::operator*(const float val) const
+{
+    Matrix answer(m,n);
+
+    for(int i = 0; i < m; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            answer.matrix[i][j] = matrix[i][j] * val;
+        }
+    }
+
+    return answer;
+}
+
+Matrix Matrix::operator-(const Matrix& A) const
+{
+    Matrix answer(m,n);
+
+    if(m != A.m || n != A.n) return answer;
+
+    for(int i = 0; i < m; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            //Adds values together, inserts in same place
+            answer.insertVal(this->getVal(i,j) - A.getVal(i,j),i,j);
         }
     }
 
