@@ -159,6 +159,8 @@ Matrix Matrix::operator*(const Matrix& A) const
             }
         }
     }
+
+    return answer;
 }
 
 Matrix Matrix::operator*(const float val) const
