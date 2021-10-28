@@ -17,12 +17,13 @@ int getCols();
 * Main function
 */
 
+static bool input_assist = true;
+
 int main()
 {
     //Variables
     Matrix running_matrix(1,1);
     string input;
-    bool input_assist = true;
     bool prev_cleared = true;
     bool finished = false;
 
@@ -203,6 +204,16 @@ int main()
             }
             case gaussjordan:
             {
+                if(prev_cleared) 
+                {
+                    cout << "Enter matrix:" << endl;
+                    int m = getRows();
+                    int n = getCols();
+                    running_matrix = fillMatrix(m, n, input_assist);
+                }
+                prev_cleared = false;
+                running_matrix.gaussjordan();
+                cout << running_matrix << endl;
                 break;
             }
             case columnspace:
@@ -281,7 +292,7 @@ Matrix fillMatrix(int m, int n, bool input_assist)
 int getRows()
 {
     int rows;
-    cout << "\tEnter num rows: ";
+    if(input_assist) cout << "\tEnter num rows: ";
     cin >> rows;
     return rows;
 }
@@ -289,7 +300,7 @@ int getRows()
 int getCols()
 {
     int cols;
-    cout << "\tEnter num cols: ";
+    if(input_assist) cout << "\tEnter num cols: ";
     cin >> cols;
     return cols;
 }

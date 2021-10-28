@@ -232,6 +232,25 @@ void Matrix::gaussjordan()
 {
     rowechelon();
     //Continue to remove areas above pivots
+
+    //Loop bottom left to top right, reading one line at a time, 
+    // the pivot is the first non-zero digit found on each line
+    for(int i = m-1; i >= 0; i--)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            //Pivot found, reduce all points above the pivot to 0, then divide the pivot to 1 by row scaling
+            if(matrix[i][j] != 0)
+            {
+                for(int k = 0; k < i; k++)
+                {
+                    row_replacement(k, i, -matrix[k][j]/matrix[i][j]);
+                }
+                row_scaling(i, 1/matrix[i][j]);
+                j = n;
+            }
+        }
+    }
 }
 
 float Matrix::determinant()
