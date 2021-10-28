@@ -11,22 +11,22 @@ Matrix::Matrix()
 {
     m = 1;
     n = 1;
-    matrix = new float*[1];
-    matrix[1] = new float[1];
+    matrix = new Fraction*[1];
+    matrix[1] = new Fraction[1];
 };
 
 //Constructor
 Matrix::Matrix(int rows, int cols)
 {
     //Setting variables
-    matrix = new float*[rows];
+    matrix = new Fraction*[rows];
     m = rows;
     n = cols;
 
     //Creating 2D array
     for(int i = 0; i < rows; i++)
     {
-        matrix[i] = new float[cols];
+        matrix[i] = new Fraction[cols];
         for(int j = 0; j < cols; j++)
         {
             matrix[i][j] = 0;
@@ -39,11 +39,11 @@ Matrix::Matrix(Matrix& A)
 {
     m = A.m;
     n = A.n;
-    matrix = new float*[m];
+    matrix = new Fraction*[m];
 
     for(int i = 0; i < m; i++)
     {
-        matrix[i] = new float[n];
+        matrix[i] = new Fraction[n];
         for(int j = 0; j < n; j++)
         {
             matrix[i][j] = A.matrix[i][j];
@@ -79,12 +79,12 @@ void Matrix::operator=(const Matrix& A)
     //Setting variables
     m = A.m;
     n = A.n;
-    matrix = new float*[m];
+    matrix = new Fraction*[m];
 
     //Creating 2D array
     for(int i = 0; i < m; i++)
     {
-        matrix[i] = new float[n];
+        matrix[i] = new Fraction[n];
         for(int j = 0; j < n; j++)
         {
             matrix[i][j] = A.matrix[i][j];
@@ -112,19 +112,12 @@ ostream& operator<<(ostream& os, const Matrix& matrix)
 */
 
 //Inserts a value at a specific places
-void Matrix::insertVal(float val, int row, int col)
+void Matrix::insertVal(Fraction val, int row, int col)
 {
-    //Potential error handling
-    if(!(row >= 0 && row <= m && col >= 0 && col <= n))
-    {
-        cout << "ERROR: Tried to insert value in an invalid position" << endl;
-        return;
-    }
-
     matrix[row][col] = val;
 }
 
-float Matrix::getVal(int row, int col) const
+Fraction Matrix::getVal(int row, int col) const
 {
     return this->matrix[row][col];
 }
@@ -160,7 +153,7 @@ Matrix Matrix::operator*(const Matrix& A) const
         for(int j = 0; j < A.n; j++)
         {
             //Insert value of the dot product of the vectors at row(i) of this matrix, and col(j) of A
-            float sum = 0; 
+            Fraction sum; 
             for(int k = 0; k < n; k++)
             {
                 sum += (matrix[i][k] * A.matrix[k][j]);
@@ -172,7 +165,7 @@ Matrix Matrix::operator*(const Matrix& A) const
     return answer;
 }
 
-Matrix Matrix::operator*(const float val) const
+Matrix Matrix::operator*(const Fraction val) const
 {
     Matrix answer(m,n);
 
@@ -233,6 +226,8 @@ void Matrix::gaussjordan()
     rowechelon();
     //Continue to remove areas above pivots
 
+    Fraction f(1,1);
+
     //Loop bottom left to top right, reading one line at a time, 
     // the pivot is the first non-zero digit found on each line
     for(int i = m-1; i >= 0; i--)
@@ -244,24 +239,25 @@ void Matrix::gaussjordan()
             {
                 for(int k = 0; k < i; k++)
                 {
-                    row_replacement(k, i, -matrix[k][j]/matrix[i][j]);
+                    row_replacement(k, i, (-matrix[k][j])/matrix[i][j]);
                 }
-                row_scaling(i, 1/matrix[i][j]);
+                row_scaling(i, f/matrix[i][j]);
                 j = n;
             }
         }
     }
 }
 
-float Matrix::determinant()
+Fraction Matrix::determinant()
 {
-    if(m != n) return 0;
+    Fraction default_frac;
+    if(m != n) return default_frac;
 
     Matrix temp;
     temp = *this;
     int swaps = temp.rowechelon();
 
-    float determinant = (swaps%2==1)?(-1):(1);
+    Fraction determinant((swaps%2==1)?(-1):(1),1);
 
     for(int i = 0; i < m; i++)
     {
@@ -310,7 +306,7 @@ int Matrix::rowechelon()
             //Row replacement to create all zeroes
             for(int j = curr_pivot_height + 1; j < m; j++)
             {
-                row_replacement(j, curr_pivot_height, -matrix[j][i]/matrix[curr_pivot_height][i]);
+                row_replacement(j, curr_pivot_height, (-matrix[j][i])/matrix[curr_pivot_height][i]);
             }
         }
    }
@@ -327,7 +323,7 @@ void solvematrix(Matrix& b);
 */
 
 //Replace row1 with the sum of row1 + row2 * k
-void Matrix::row_replacement(int row1, int row2, float k)
+void Matrix::row_replacement(int row1, int row2, Fraction k)
 {
     for(int i = 0; i < n; i++) matrix[row1][i] = matrix[row1][i] + (k * matrix[row2][i]);
 }
@@ -335,7 +331,7 @@ void Matrix::row_replacement(int row1, int row2, float k)
 //Swap row1 and row2
 void Matrix::row_interchange(int row1, int row2)
 {
-    float *temp = new float[n];
+    Fraction *temp = new Fraction[n];
     for(int i = 0; i < n; i++)
     {
         temp[i] = matrix[row1][i];
@@ -346,7 +342,7 @@ void Matrix::row_interchange(int row1, int row2)
 }
 
 //Scale row1 by constant k
-void Matrix::row_scaling(int row1, float k)
+void Matrix::row_scaling(int row1, Fraction k)
 {
     for(int i = 0; i < n; i++)
     {

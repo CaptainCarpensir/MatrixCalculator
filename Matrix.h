@@ -2,13 +2,14 @@
 #define MATRIX_H
 
 #include <iostream>
+#include "Fraction.h"
 using namespace std;
 
 class Matrix
 {
     private:
         //Vars
-        float** matrix;
+        Fraction** matrix;
     public:
         //Matrix Width and Height
         int m; //Rows
@@ -35,9 +36,9 @@ class Matrix
         /*
         * MEMBER FUNCTIONS & MATRIX ARITHMETIC
         */
-        void insertVal(float val, int row, int col);
+        void insertVal(Fraction val, int row, int col);
 
-        float getVal(int row, int col) const;
+        Fraction getVal(int row, int col) const;
 
         //Arithmetic matrix operations
         Matrix operator+(const Matrix& A) const;
@@ -46,7 +47,7 @@ class Matrix
 
         Matrix operator*(const Matrix& A) const;
 
-        Matrix operator*(const float val) const;
+        Matrix operator*(const Fraction val) const;
 
         //Matrix operations
         void transpose();
@@ -55,7 +56,7 @@ class Matrix
 
         void gaussjordan();
 
-        float determinant();
+        Fraction determinant();
 
         int rowechelon();
 
@@ -64,11 +65,11 @@ class Matrix
         void solvematrix(Matrix& b);
     private:
         //Private Functions
-        void row_replacement(int row1, int row2, float k);
+        void row_replacement(int row1, int row2, Fraction k);
 
         void row_interchange(int row1, int row2);
 
-        void row_scaling(int row1, float k);
+        void row_scaling(int row1, Fraction k);
 };
 
 #endif

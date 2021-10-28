@@ -184,7 +184,7 @@ int main()
                     running_matrix = fillMatrix(m, n, input_assist);
                 }
                 prev_cleared = false;
-                float num = running_matrix.determinant();
+                Fraction num = running_matrix.determinant();
                 cout << num << endl;
                 break;
             }
@@ -280,9 +280,26 @@ Matrix fillMatrix(int m, int n, bool input_assist)
             {
                 cout << "\tEnter val in pos (" << i + 1 << ", " << j + 1 << "): ";
             }
-            float val;
+            string val;
+            string num;
+            string den;
             cin >> val;
-            A.insertVal(val, i, j);
+
+            int n = val.find('/');
+
+            if(n != -1)
+            {
+                num = val.substr(0,n);
+                den = val.substr(n+1);
+            }
+            else{
+                num = val;
+                den = "1";
+            }
+
+            Fraction matrixVal(stoi(num), stoi(den));
+
+            A.insertVal(matrixVal, i, j);
         }
     }
 

@@ -21,16 +21,27 @@ class Fraction
 
         //Ostream operator overload
         friend ostream& operator<<(ostream& os, const Fraction& frac);
+ 
+        //Simplifies fraction via numerator and denominator
+        void simplify();
         
         /*
         * Operator Overloads
         */
 
-        //Copy Assignment Operator
+        //Copy Assignment Operators
         void operator=(const Fraction& frac);
 
-        //Equivalence Operator
+        void operator=(const int& number);
+
+        //Equivalence Operators
         bool operator==(const Fraction& frac) const;
+
+        bool operator==(const int& number) const;
+
+        bool operator!=(const Fraction& frac) const;
+
+        bool operator!=(const int& number) const;
 
         //Addition Operator
         Fraction operator+(const Fraction& frac) const;
@@ -43,9 +54,18 @@ class Fraction
         
         //Division Operator
         Fraction operator/(const Fraction& frac) const;
-    private:
-        //Simplifies fraction via numerator and denominator
-        void simplify();
+
+        //More Operators
+        void operator+=(const Fraction& frac);
+
+        void operator-=(const Fraction& frac);
+
+        void operator*=(const Fraction& frac);
+
+        void operator/=(const Fraction& frac);
+
+        //Negative operator
+        Fraction operator-();
 };
 
 #endif
