@@ -12,7 +12,8 @@ Matrix::Matrix()
     m = 1;
     n = 1;
     matrix = new Fraction*[1];
-    matrix[1] = new Fraction[1];
+    matrix[0] = new Fraction[1];
+    matrix[0][0] = 0;
 };
 
 //Constructor
@@ -115,6 +116,12 @@ ostream& operator<<(ostream& os, const Matrix& matrix)
 void Matrix::insertVal(Fraction val, int row, int col)
 {
     matrix[row][col] = val;
+}
+
+void Matrix::insertVal(int val, int row, int col)
+{
+    Fraction new_val(val, 1);
+    matrix[row][col] = new_val;
 }
 
 Fraction Matrix::getVal(int row, int col) const
@@ -257,7 +264,7 @@ Fraction Matrix::determinant()
     temp = *this;
     int swaps = temp.rowechelon();
 
-    Fraction determinant((swaps%2==1)?(-1):(1),1);
+    Fraction determinant((swaps%2==1)?(-1):(1), 1);
 
     for(int i = 0; i < m; i++)
     {

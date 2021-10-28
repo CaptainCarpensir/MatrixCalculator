@@ -1,5 +1,5 @@
 #ifndef FRACTION_H
-#define FRCTION_H
+#define FRACTION_H
 
 #include <iostream>
 using namespace std;

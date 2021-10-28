@@ -38,6 +38,8 @@ class Matrix
         */
         void insertVal(Fraction val, int row, int col);
 
+        void insertVal(int val, int row, int col);
+
         Fraction getVal(int row, int col) const;
 
         //Arithmetic matrix operations
