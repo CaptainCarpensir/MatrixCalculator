@@ -62,9 +62,13 @@ class Matrix
 
         int rowechelon();
 
-        //void augmentmatrix(Matrix& A);
+        void augmentmatrix(const Matrix& A);
 
-        void solvematrix(Matrix& b);
+        void columnspace();
+
+        void nullspace();
+
+        void solvematrix();
     private:
         //Private Functions
         void row_replacement(int row1, int row2, Fraction k);

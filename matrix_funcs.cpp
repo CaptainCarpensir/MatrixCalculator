@@ -221,11 +221,56 @@ void Matrix::transpose()
 
 bool Matrix::invert()
 {
+    //Return false if there is no 
+    if(m != n) return false;
+
+    //Create temp matrix
     Matrix temp(m,n);
+    temp = *this;
 
-    *this = temp;
+    //Create identity matrix
+    Matrix identity(m,n);
+    for(int i = 0; i < m; i++)
+    {
+        identity.matrix[i][i] = 1;
+    }
 
-    return false;
+    //Augment temp matrix with identity matrix, then convert to REF
+    temp.augmentmatrix(identity);
+    temp.gaussjordan();
+
+    //Check for zero rows in the augmented matrix
+    bool inverse_exists = true;
+    for(int i = 0; i < m; i++)
+    {
+        bool zero_row = true;
+        for(int j = 0; j < n; j++)
+        {
+            if(temp.matrix[i][j] != 0)
+            {
+                zero_row = false;
+                j = n;
+            }
+        }
+        if(zero_row)
+        {
+            inverse_exists = false;
+            i = m;
+            return false;
+        }
+    }
+
+    //Code reaches this point, inverse exists, and resides in the second half of the augmented matrix
+    //Loop to change into inverse
+    for(int i = 0; i < m; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            matrix[i][j] = temp.matrix[i][j+n];
+        }
+    }
+
+    return true;
 }
 
 void Matrix::gaussjordan()
@@ -321,7 +366,41 @@ int Matrix::rowechelon()
    return swaps;
 }
 
-//void Matrix::augmentmatrix(Matrix& A);
+//Requires the calling matrix, and the parameter matrix to have the same number of rows
+void Matrix::augmentmatrix(const Matrix& A)
+{
+    if(m != A.m) return;
+
+    //Creating temp matrix
+    Matrix temp(*this);
+
+    //Deleting current matrix
+    for(int i = 0; i < m; i++)
+    {
+        delete[] matrix[i];
+    }
+    delete[] matrix;
+
+    //Remaking matrix
+    n = A.n + temp.n;
+    matrix = new Fraction*[m];
+
+    for(int i = 0; i < m; i++)
+    {
+        matrix[i] = new Fraction[n];
+        for(int j = 0; j < n; j++)
+        {
+            //Logic which inserts either val from temp matrix or parameter matrix
+            if(j < temp.n)
+            {
+                matrix[i][j] = temp.matrix[i][j];
+            }
+            else{
+                matrix[i][j] = A.matrix[i][j - temp.n];
+            }
+        }
+    }
+}
 
 void solvematrix(Matrix& b);
 
