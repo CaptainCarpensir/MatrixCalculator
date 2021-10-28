@@ -172,7 +172,14 @@ int main()
                 prev_cleared = false;
                 bool was_invertible;
                 was_invertible = running_matrix.invert();
-                cout << running_matrix << endl;
+                if(was_invertible)
+                {
+                    cout << running_matrix << endl;
+                }
+                else
+                {
+                    cout << "That matrix has no inverse." << endl
+                }
                 break;
             }
             case determinant:
