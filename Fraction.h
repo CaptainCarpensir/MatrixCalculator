@@ -7,14 +7,14 @@ using namespace std;
 class Fraction
 {
     private:
-        int num;
-        int den;
+        long long num;
+        long long den;
     public:
         //Default Constructor
         Fraction();
 
         //Constrict w/ values
-        Fraction(int numerator, int denominator);
+        Fraction(long long numerator, long long denominator);
 
         //Copy constructor
         Fraction(const Fraction& frac);
@@ -32,16 +32,16 @@ class Fraction
         //Copy Assignment Operators
         void operator=(const Fraction& frac);
 
-        void operator=(const int& number);
+        void operator=(const long long& number);
 
         //Equivalence Operators
         bool operator==(const Fraction& frac) const;
 
-        bool operator==(const int& number) const;
+        bool operator==(const long long& number) const;
 
         bool operator!=(const Fraction& frac) const;
 
-        bool operator!=(const int& number) const;
+        bool operator!=(const long long& number) const;
 
         //Addition Operator
         Fraction operator+(const Fraction& frac) const;

@@ -289,11 +289,11 @@ void Matrix::gaussjordan()
             //Pivot found, reduce all points above the pivot to 0, then divide the pivot to 1 by row scaling
             if(matrix[i][j] != 0)
             {
+                row_scaling(i, f/matrix[i][j]);
                 for(int k = 0; k < i; k++)
                 {
                     row_replacement(k, i, (-matrix[k][j])/matrix[i][j]);
                 }
-                row_scaling(i, f/matrix[i][j]);
                 j = n;
             }
         }
@@ -309,6 +309,7 @@ Fraction Matrix::determinant()
     temp = *this;
     int swaps = temp.rowechelon();
 
+    //Sets the determinant to start off as -1 or +1 based on how many row swaps occured
     Fraction determinant((swaps%2==1)?(-1):(1), 1);
 
     for(int i = 0; i < m; i++)
@@ -402,7 +403,131 @@ void Matrix::augmentmatrix(const Matrix& A)
     }
 }
 
-void solvematrix(Matrix& b);
+//Finds and prints the basis of the column space
+void Matrix::columnspace()
+{
+    //Create temp and get REF
+    Matrix temp(*this);
+    temp.gaussjordan();
+
+    //Find pivot column positions
+    bool *pivots = new bool[n];
+    int curr_pos = 0;
+    for(int i = 0; i < m; i++)
+    {
+        for(int j = curr_pos; j < n; j++)
+        {
+            if(temp.matrix[i][j] != 0)
+            {
+                pivots[j] = true;
+                curr_pos = j + 1;
+                j = n;
+            }
+        }
+    }
+
+    //Print basis from independent vectors of A
+    int pivot_cnt = 0;
+    for(int i = 0; i < n; i++)
+    {
+        //If column is a pivot column, loop through it and print it as a basis
+        if(pivots[i])
+        {
+            cout << (char)('a' + pivot_cnt) << ": ";
+            for(int j = 0; j < m; j++)
+            {
+                cout << matrix[j][i] << " ";
+            }
+            cout << endl;
+            pivot_cnt++;
+        }
+    }
+}
+
+//Finds and prints the basis of the solution set for Ax = 0
+void Matrix::nullspace()
+{
+    //Make temp and get REF
+    Matrix temp(*this);
+    temp.gaussjordan();
+
+    //Find # of pivot columns and their coordinates
+    bool *pivots = new bool[n];
+    int curr_pos = 0;
+    int free_vars = 0;
+    for(int i = 0; i < m; i++)
+    {
+        for(int j = curr_pos; j < n; j++)
+        {
+            if(temp.matrix[i][j] != 0)
+            {
+                pivots[j] = true;
+                curr_pos = j + 1;
+                j = n;
+            }
+            else
+            {
+                free_vars++;
+            }
+        }
+    }
+
+    //Create 2D array for basis vectors, # of basis vectors = # of free vars
+    Fraction **basis = new Fraction*[free_vars];
+
+    //Now loop through all columns and store information to print basis vectors
+    free_vars = 0;
+    for(int i = 0; i < n; i++)
+    {
+        //Check if column has free variable
+        if(!pivots[i])
+        {
+            basis[free_vars] = new Fraction[n];
+            int pivot_cnt = 0;
+            int free_cnt = 0;
+            for(int j = 0; j < n; j++)
+            {
+                if(pivots[j])
+                {
+                    basis[free_vars][j] = -(temp.matrix[pivot_cnt][i]);
+                    pivot_cnt++;
+                }
+                else
+                {
+                    basis[free_vars][j] = ((free_cnt == free_vars) ? 1 : 0);
+                    free_cnt++;
+                }
+            }
+            free_vars++;
+        }
+    }
+
+    //Print nullspace
+    for(int i = 0; i < free_vars; i++)
+    {
+        cout << (char)('a' + i) << ": ";
+        for(int j = 0; j < n; j++)
+        {
+            cout << basis[i][j] << " ";
+        }
+        cout << endl;
+        delete[] basis[i];
+    }
+    delete[] basis;
+
+    //Case that the nullspace is just the zero vector
+    if(free_vars == 0)
+    {
+        cout << "a: 0";
+    }
+
+    delete[] pivots;
+}
+
+void Matrix::solvematrix(const Matrix& b)
+{
+
+}
 
 /*
 * PRIVATE MEMBER FUNCTIONS

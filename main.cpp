@@ -226,10 +226,28 @@ int main()
             }
             case columnspace:
             {
+                if(prev_cleared) 
+                {
+                    cout << "Enter matrix:" << endl;
+                    int m = getRows();
+                    int n = getCols();
+                    running_matrix = fillMatrix(m, n, input_assist);
+                }
+                prev_cleared = false;
+                running_matrix.columnspace();
                 break;
             }
             case nullspace:
             {
+                if(prev_cleared) 
+                {
+                    cout << "Enter matrix:" << endl;
+                    int m = getRows();
+                    int n = getCols();
+                    running_matrix = fillMatrix(m, n, input_assist);
+                }
+                prev_cleared = false;
+                running_matrix.nullspace();
                 break;
             }
             /*

@@ -14,7 +14,7 @@ Fraction::Fraction()
 }
 
 //Constrict w/ values
-Fraction::Fraction(int numerator, int denominator)
+Fraction::Fraction(long long numerator, long long denominator)
 {
     num = numerator;
     den = denominator;
@@ -50,7 +50,7 @@ ostream& operator<<(ostream& os, const Fraction& frac)
 void Fraction::simplify()
 {
     //Comput GCD
-    int gcd, temp_num, temp_den;
+    long long gcd, temp_num, temp_den;
 
     //Checks if the fraction is negative, then sets both den and num to positive values for algorithm to work
     //Also sets numerator and denominator to be positive to make sure all fractions only have negative numerator
@@ -96,7 +96,7 @@ void Fraction::operator=(const Fraction& frac)
     den = frac.den;
 }
 
-void Fraction::operator=(const int& number)
+void Fraction::operator=(const long long& number)
 {
     num = number;
     den = 1;
@@ -118,7 +118,7 @@ bool Fraction::operator==(const Fraction& frac) const
     return answer;
 }
 
-bool Fraction::operator==(const int& number) const
+bool Fraction::operator==(const long long& number) const
 {
     bool answer = false;
 
@@ -148,7 +148,7 @@ bool Fraction::operator!=(const Fraction& frac) const
     return answer;
 }
 
-bool Fraction::operator!=(const int& number) const
+bool Fraction::operator!=(const long long& number) const
 {
     bool answer = true;
 
@@ -166,8 +166,8 @@ bool Fraction::operator!=(const int& number) const
 //Addition Operator
 Fraction Fraction::operator+(const Fraction& frac) const
 {
-    int new_num = (num*frac.den)+(frac.num*den);
-    int new_den = den*frac.den;
+    long long new_num = (num*frac.den)+(frac.num*den);
+    long long new_den = den*frac.den;
 
     Fraction answer(new_num, new_den);
 
@@ -179,8 +179,8 @@ Fraction Fraction::operator+(const Fraction& frac) const
 //Subtraction Operator
 Fraction Fraction::operator-(const Fraction& frac) const
 {
-    int new_num = (num*frac.den)-(frac.num*den);
-    int new_den = den*frac.den;
+    long long new_num = (num*frac.den)-(frac.num*den);
+    long long new_den = den*frac.den;
 
     Fraction answer(new_num, new_den);
 

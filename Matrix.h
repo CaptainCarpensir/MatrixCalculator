@@ -68,7 +68,7 @@ class Matrix
 
         void nullspace();
 
-        void solvematrix();
+        void solvematrix(const Matrix& b);
     private:
         //Private Functions
         void row_replacement(int row1, int row2, Fraction k);
