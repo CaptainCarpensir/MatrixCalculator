@@ -14,6 +14,9 @@ class Matrix
         int m; //Rows
         int n; //Cols
 
+        //Default Constructor
+        Matrix();
+
         //Constructor
         Matrix(int rows, int cols);
 
@@ -24,7 +27,7 @@ class Matrix
         ~Matrix();
 
         //Assignment operator overload
-        void operator=(Matrix& A);
+        void operator=(const Matrix& A);
 
         //Operator overload to print
         friend ostream& operator<<(ostream& os, const Matrix& matrix);
@@ -44,6 +47,9 @@ class Matrix
         Matrix operator*(const Matrix& A) const;
 
         Matrix operator*(const float val) const;
+
+        //Matrix operations
+        void transpose();
 };
 
 #endif

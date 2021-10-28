@@ -6,6 +6,15 @@ using namespace std;
 * CONSTRUCTOR & DESTRUCTOR
 */
 
+//Default Constructor
+Matrix::Matrix()
+{
+    m = 1;
+    n = 1;
+    matrix = new float*[1];
+    matrix[1] = new float[1];
+};
+
 //Constructor
 Matrix::Matrix(int rows, int cols)
 {
@@ -58,7 +67,7 @@ Matrix::~Matrix()
 */
 
 //Assignment operator overload
-void Matrix::operator=(Matrix& A)
+void Matrix::operator=(const Matrix& A)
 {
     //Destroying
     for(int i = 0; i < m; i++)
@@ -133,7 +142,7 @@ Matrix Matrix::operator+(const Matrix& A) const
         for(int j = 0; j < n; j++)
         {
             //Adds values together, inserts in same place
-            answer.insertVal(this->getVal(i,j) + A.getVal(i,j),i,j);
+            answer.matrix[i][j] = matrix[i][j] + A.matrix[i][j];
         }
     }
 
@@ -188,10 +197,24 @@ Matrix Matrix::operator-(const Matrix& A) const
     {
         for(int j = 0; j < n; j++)
         {
-            //Adds values together, inserts in same place
-            answer.insertVal(this->getVal(i,j) - A.getVal(i,j),i,j);
+            answer.matrix[i][j] = matrix[i][j] - A.matrix[i][j];
         }
     }
 
     return answer;
+}
+
+void Matrix::transpose()
+{
+    Matrix temp(n,m);
+
+    for(int i = 0; i < m; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            temp.matrix[j][i] = matrix[i][j];
+        }
+    }
+
+    *this = temp;
 }

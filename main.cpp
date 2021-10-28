@@ -7,7 +7,11 @@ using namespace std;
 /*
 * Prototypes
 */
-void fillMatrix(Matrix& A, int m, int n);
+Matrix fillMatrix(int m, int n, bool input_assist);
+
+int getRows();
+
+int getCols();
 
 /*
 * Main function
@@ -18,7 +22,7 @@ int main()
     //Variables
     Matrix running_matrix(1,1);
     string input;
-    bool input_assist = false;
+    bool input_assist = true;
     bool prev_cleared = true;
     bool finished = false;
 
@@ -26,8 +30,8 @@ int main()
     const string cmds[NUM_CMDS] = 
     {
         "help", "quit", "toggleinput", "clear", "credit", "empty",
-        "add", "subtract", "multiply", "invert", "transpose",
-        "determinant", "echelon", "gaussjordan", "columnspace", "nullspace"
+        "add", "subtract", "multiply", "transpose",
+        "invert", "determinant", "echelon", "gaussjordan", "columnspace", "nullspace"
     };
 
     enum Command
@@ -36,10 +40,10 @@ int main()
         help, quit, toggleinput, clear, credit, empty,
 
         //Matrix Arithmetic
-        add, subtract, multiply, invert, transpose,
+        add, subtract, multiply, transpose,
 
         //Matrix Operations
-        determinant, echelon, gaussjordan, columnspace, nullspace
+        invert, determinant, echelon, gaussjordan, columnspace, nullspace
     };
 
     //Entering the program
@@ -74,18 +78,88 @@ int main()
             *   Matrix Arithmetic
             */
             case add:
+            {
+                if(prev_cleared) 
+                {
+                    cout << "Enter matrix 1:" << endl;
+                    int m = getRows();
+                    int n = getCols();
+                    running_matrix = fillMatrix(m, n, input_assist);
+                }
+                else{
+                    cout << "Matrix 1:\n" << running_matrix << endl;
+                }
+                Matrix A = running_matrix;
+                Matrix B;
+                cout << "Enter matrix 2:" << endl;
+                B = fillMatrix(A.m, A.n, input_assist);
+                prev_cleared = false;
+                running_matrix = (A + B);
+                cout << running_matrix << endl;
                 break;
+            }
             case subtract:
+            {
+                if(prev_cleared) 
+                {
+                    cout << "Enter matrix 1:" << endl;
+                    int m = getRows();
+                    int n = getCols();
+                    running_matrix = fillMatrix(m, n, input_assist);
+                }
+                else{
+                    cout << "Matrix 1:\n" << running_matrix << endl;
+                }
+                Matrix A = running_matrix;
+                Matrix B;
+                cout << "Enter matrix 2:" << endl;
+                B = fillMatrix(A.m, A.n, input_assist);
+                prev_cleared = false;
+                running_matrix = (A - B);
+                cout << running_matrix << endl;
                 break;
+            }
             case multiply:
+            {
+                if(prev_cleared) 
+                {
+                    cout << "Enter matrix 1:" << endl;
+                    int m = getRows();
+                    int n = getCols();
+                    running_matrix = fillMatrix(m, n, input_assist);
+                }
+                else{
+                    cout << "Matrix 1:\n" << running_matrix << endl;
+                }
+                Matrix A = running_matrix;
+                Matrix B;
+                cout << "Enter matrix 2:" << endl;
+                int n = getCols();
+                B = fillMatrix(A.n, n, input_assist);
+                prev_cleared = false;
+                running_matrix = (A * B);
+                cout << running_matrix << endl;
                 break;
-            case invert:
-                break;
+            }
             case transpose:
+            {
+                if(prev_cleared) 
+                {
+                    cout << "Enter matrix:" << endl;
+                    int m = getRows();
+                    int n = getCols();
+                    running_matrix = fillMatrix(m, n, input_assist);
+                }
+                prev_cleared = false;
+                running_matrix.transpose();
+                cout << running_matrix << endl;
                 break;
+            }
             /*
             *   Matrix Operations
             */
+            case invert:
+                break;
             case determinant:
                 break;
             case echelon:
@@ -110,7 +184,7 @@ int main()
                 finished = true;
                 break;
             case toggleinput:
-                cout << "Input assist: " << (input_assist?"On":"Off") << endl;
+                cout << "Input assist: " << (input_assist?"Off":"On") << endl;
                 input_assist = !input_assist;
                 break;
             case clear:
@@ -140,19 +214,39 @@ int main()
 */
 
 //Fills a matrix of size M x N based off of standard input stream
-void fillMatrix(Matrix& A, int m, int n, bool input_assist)
+Matrix fillMatrix(int m, int n, bool input_assist)
 {
+    Matrix A(m,n);
+
     for(int i = 0; i < m; i++)
     {
         for(int j = 0; j < n; j++)
         {
             if(input_assist)
             {
-                cout << "Enter val in pos (" << i + 1 << ", " << j + 1 << "): ";
+                cout << "\tEnter val in pos (" << i + 1 << ", " << j + 1 << "): ";
             }
             float val;
             cin >> val;
             A.insertVal(val, i, j);
         }
     }
+
+    return A;
+}
+
+int getRows()
+{
+    int rows;
+    cout << "\tEnter num rows: ";
+    cin >> rows;
+    return rows;
+}
+
+int getCols()
+{
+    int cols;
+    cout << "\tEnter num cols: ";
+    cin >> cols;
+    return cols;
 }
