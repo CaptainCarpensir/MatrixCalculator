@@ -50,6 +50,25 @@ class Matrix
 
         //Matrix operations
         void transpose();
+
+        bool invert();
+
+        void gaussjordan();
+
+        float determinant();
+
+        void rowechelon();
+
+        //void augmentmatrix(Matrix& A);
+
+        void solvematrix(Matrix& b);
+    private:
+        //Private Functions
+        void row_replacement(int row1, int row2, float k);
+
+        void row_interchange(int row1, int row2);
+
+        void row_scaling(int row1, float k);
 };
 
 #endif

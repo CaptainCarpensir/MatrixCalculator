@@ -218,3 +218,114 @@ void Matrix::transpose()
 
     *this = temp;
 }
+
+bool Matrix::invert()
+{
+    Matrix temp(m,n);
+
+    *this = temp;
+
+    return false;
+}
+
+void Matrix::gaussjordan()
+{
+    rowechelon();
+    //Continue to remove areas above pivots
+}
+
+float Matrix::determinant()
+{
+    if(m != n) return 0;
+
+    Matrix temp;
+    temp = *this;
+    temp.rowechelon();
+
+    float determinant = 1;
+
+    for(int i = 0; i < m; i++)
+    {
+        determinant *= temp.matrix[i][i];
+    }
+
+    return determinant;
+}
+
+void Matrix::rowechelon()
+{
+    /*
+    *   To reduce to Row Echelon form:
+    *
+    *   1. Loop through rows
+    *   2. On each row, first: check if the position below previous pivot is 0, swap with first position that is not.
+    *       If there is no zero on the column below the previous pivot height, skip this row
+    *   3. If there are numbers below the pivot position, use row replacement to make zeroes below the rows
+    * 
+    *   Repeat the thre previous steps until the whole matrix has been checked
+    */
+
+   int curr_pivot_height = -1;
+   int pivot_col;
+
+   for(int i = 0; i < n; i++)
+   {
+        //Loop through the column to put a non-zero value at the pivot position. If all zeros, it isn't a pivot column.
+        pivot_col = false;
+        for(int j = curr_pivot_height + 1; j < m; j++)
+        {
+            if(matrix[j][i] != 0) 
+            {
+                row_interchange(curr_pivot_height + 1, j);
+                curr_pivot_height++;
+                j = m;
+                pivot_col = true;
+            }
+        }
+
+        if(pivot_col)
+        {
+            //Row replacement to create all zeroes
+            for(int j = curr_pivot_height + 1; j < m; j++)
+            {
+                row_replacement(j, curr_pivot_height, -matrix[j][i]/matrix[curr_pivot_height][i]);
+            }
+        }
+   }
+}
+
+//void Matrix::augmentmatrix(Matrix& A);
+
+void solvematrix(Matrix& b);
+
+/*
+* PRIVATE MEMBER FUNCTIONS
+*/
+
+//Replace row1 with the sum of row1 + row2 * k
+void Matrix::row_replacement(int row1, int row2, float k)
+{
+    for(int i = 0; i < n; i++) matrix[row1][i] = matrix[row1][i] + (k * matrix[row2][i]);
+}
+
+//Swap row1 and row2
+void Matrix::row_interchange(int row1, int row2)
+{
+    float *temp = new float[n];
+    for(int i = 0; i < n; i++)
+    {
+        temp[i] = matrix[row1][i];
+        matrix[row1][i] = matrix[row2][i];
+        matrix[row2][i] = temp[i];
+    }
+    delete[] temp;
+}
+
+//Scale row1 by constant k
+void Matrix::row_scaling(int row1, float k)
+{
+    for(int i = 0; i < n; i++)
+    {
+        matrix[row1][i] *= k;
+    }
+}

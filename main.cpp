@@ -159,17 +159,60 @@ int main()
             *   Matrix Operations
             */
             case invert:
+            {
+                if(prev_cleared) 
+                {
+                    cout << "Enter matrix:" << endl;
+                    int m = getRows();
+                    int n = getCols();
+                    running_matrix = fillMatrix(m, n, input_assist);
+                }
+                prev_cleared = false;
+                bool was_invertible;
+                was_invertible = running_matrix.invert();
+                cout << running_matrix << endl;
                 break;
+            }
             case determinant:
+            {
+                if(prev_cleared) 
+                {
+                    cout << "Enter matrix:" << endl;
+                    int m = getRows();
+                    int n = getCols();
+                    running_matrix = fillMatrix(m, n, input_assist);
+                }
+                prev_cleared = false;
+                float num = running_matrix.determinant();
+                cout << num << endl;
                 break;
+            }
             case echelon:
+            {
+                if(prev_cleared) 
+                {
+                    cout << "Enter matrix:" << endl;
+                    int m = getRows();
+                    int n = getCols();
+                    running_matrix = fillMatrix(m, n, input_assist);
+                }
+                prev_cleared = false;
+                running_matrix.rowechelon();
+                cout << running_matrix << endl;
                 break;
+            }
             case gaussjordan:
+            {
                 break;
+            }
             case columnspace:
+            {
                 break;
+            }
             case nullspace:
+            {
                 break;
+            }
             /*
             *   QoL Commands
             */
