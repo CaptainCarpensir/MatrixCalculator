@@ -57,7 +57,7 @@ class Matrix
 
         float determinant();
 
-        void rowechelon();
+        int rowechelon();
 
         //void augmentmatrix(Matrix& A);
 

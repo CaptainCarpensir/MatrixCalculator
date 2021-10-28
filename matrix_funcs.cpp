@@ -259,9 +259,9 @@ float Matrix::determinant()
 
     Matrix temp;
     temp = *this;
-    temp.rowechelon();
+    int swaps = temp.rowechelon();
 
-    float determinant = 1;
+    float determinant = (swaps%2==1)?(-1):(1);
 
     for(int i = 0; i < m; i++)
     {
@@ -271,7 +271,8 @@ float Matrix::determinant()
     return determinant;
 }
 
-void Matrix::rowechelon()
+//RETURNS NUMBER OF ROW SWAPS USED IN ORDER TO CALCULATE DETERMINANT
+int Matrix::rowechelon()
 {
     /*
     *   To reduce to Row Echelon form:
@@ -286,6 +287,7 @@ void Matrix::rowechelon()
 
    int curr_pivot_height = -1;
    int pivot_col;
+   int swaps = 0;
 
    for(int i = 0; i < n; i++)
    {
@@ -295,6 +297,7 @@ void Matrix::rowechelon()
         {
             if(matrix[j][i] != 0) 
             {
+                if(curr_pivot_height + 1 != j) swaps++;
                 row_interchange(curr_pivot_height + 1, j);
                 curr_pivot_height++;
                 j = m;
@@ -311,6 +314,8 @@ void Matrix::rowechelon()
             }
         }
    }
+
+   return swaps;
 }
 
 //void Matrix::augmentmatrix(Matrix& A);
