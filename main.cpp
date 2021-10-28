@@ -178,7 +178,7 @@ int main()
                 }
                 else
                 {
-                    cout << "That matrix has no inverse." << endl
+                    cout << "That matrix has no inverse." << endl;
                 }
                 break;
             }
