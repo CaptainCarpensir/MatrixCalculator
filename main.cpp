@@ -137,7 +137,7 @@ int main()
                 Matrix B;
                 cout << "Enter matrix 2:" << endl;
                 int n = getCols();
-                //B = fillMatrix(A.n, n, input_assist);
+                B = fillMatrix(A.n, n, input_assist);
                 prev_cleared = false;
                 running_matrix = (A * B);
                 cout << running_matrix << endl;
