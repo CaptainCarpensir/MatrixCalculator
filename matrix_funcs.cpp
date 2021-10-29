@@ -413,6 +413,7 @@ void Matrix::columnspace()
     //Find pivot column positions
     bool *pivots = new bool[n];
     int curr_pos = 0;
+    for(int i = 0; i < temp.n; i++) pivots[i] = false;
     for(int i = 0; i < m; i++)
     {
         for(int j = curr_pos; j < n; j++)
@@ -442,6 +443,8 @@ void Matrix::columnspace()
             pivot_cnt++;
         }
     }
+
+    delete[] pivots;
 }
 
 //Finds and prints the basis of the solution set for Ax = 0
@@ -455,6 +458,7 @@ void Matrix::nullspace()
     bool *pivots = new bool[n];
     int curr_pos = 0;
     int free_vars = 0;
+    for(int i = 0; i < temp.n; i++) pivots[i] = false;
     for(int i = 0; i < m; i++)
     {
         for(int j = curr_pos; j < n; j++)
@@ -526,7 +530,59 @@ void Matrix::nullspace()
 
 void Matrix::solvematrix(const Matrix& b)
 {
+    //Create augmented matrix and reduce to REF
+    Matrix temp(*this);
+    temp.augmentmatrix(b);
+    temp.gaussjordan();
 
+    //Make array that contains info on pivot columns
+    bool *pivots = new bool[temp.n];
+    int curr_pos = 0;
+    for(int i = 0; i < temp.n; i++) pivots[i] = false;
+    for(int i = 0; i < m; i++)
+    {
+        for(int j = curr_pos; j < temp.n; j++)
+        {
+            if(temp.matrix[i][j] != 0)
+            {
+                pivots[j] = true;
+                curr_pos = j + 1;
+                j = temp.n;
+            }
+        }
+    }
+
+    //Case where there's a pivot in the last column, no solution
+    if(pivots[temp.n - 1]) 
+    {
+        cout << "No solution." << endl;
+        delete[] pivots;
+        return;
+    }
+
+    //Checking homogeniety
+    bool ishomogenous = true;
+    for(int i = 0; i < m; i++)
+    {
+        if(temp.matrix[i][temp.n - 1] != 0) ishomogenous = false;
+    }
+
+    if(!ishomogenous)
+    {
+        //Print particular solution
+        cout << "Particular solution: ";
+        for(int i = 0; i < m; i++)
+        {
+            cout << temp.matrix[i][temp.n - 1] << " ";
+        }
+        cout << "\nPlus the span of: " <<  endl;
+    }
+
+    if(ishomogenous) cout << "Span: " << endl;
+
+    nullspace();
+
+    delete[] pivots;
 }
 
 /*

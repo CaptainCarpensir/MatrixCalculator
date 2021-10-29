@@ -28,12 +28,12 @@ int main()
     bool prev_cleared = true;
     bool finished = false;
 
-    const int NUM_CMDS = 16;
+    const int NUM_CMDS = 18;
     const string cmds[NUM_CMDS] = 
     {
         "help", "quit", "toggleinput", "clear", "credit", "empty",
-        "add", "subtract", "multiply", "transpose",
-        "invert", "determinant", "echelon", "gaussjordan", "columnspace", "nullspace"
+        "add", "subtract", "multiply", "transpose", "print",
+        "invert", "determinant", "echelon", "gaussjordan", "columnspace", "nullspace", "solvematrix"
     };
 
     enum Command
@@ -42,10 +42,10 @@ int main()
         help, quit, toggleinput, clear, credit, empty,
 
         //Matrix Arithmetic
-        add, subtract, multiply, transpose,
+        add, subtract, multiply, transpose, print,
 
         //Matrix Operations
-        invert, determinant, echelon, gaussjordan, columnspace, nullspace
+        invert, determinant, echelon, gaussjordan, columnspace, nullspace, solvematrix
     };
 
     //Entering the program
@@ -157,6 +157,15 @@ int main()
                 cout << running_matrix << endl;
                 break;
             }
+            case print:
+            {
+                if(prev_cleared) 
+                {
+                    cout << "Nothing to print." << endl;
+                }
+                cout << running_matrix << endl;
+                break;
+            }
             /*
             *   Matrix Operations
             */
@@ -248,6 +257,22 @@ int main()
                 }
                 prev_cleared = false;
                 running_matrix.nullspace();
+                break;
+            }
+            case solvematrix:
+            {
+                if(prev_cleared) 
+                {
+                    cout << "Enter matrix:" << endl;
+                    int m = getRows();
+                    int n = getCols();
+                    running_matrix = fillMatrix(m, n, input_assist);
+                }
+                Matrix b;
+                cout << "Enter vector:" << endl;
+                b = fillMatrix(running_matrix.m, 1, input_assist);
+                prev_cleared = false;
+                running_matrix.solvematrix(b);
                 break;
             }
             /*
