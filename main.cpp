@@ -362,6 +362,7 @@ int getRows()
     int rows;
     if(input_assist) cout << "\tEnter num rows: ";
     cin >> rows;
+    if(rows <= 0) rows = 1;
     return rows;
 }
 
@@ -370,5 +371,6 @@ int getCols()
     int cols;
     if(input_assist) cout << "\tEnter num cols: ";
     cin >> cols;
+    if(cols <= 0) cols = 1;
     return cols;
 }
