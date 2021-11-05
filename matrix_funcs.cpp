@@ -585,6 +585,12 @@ void Matrix::solvematrix(const Matrix& b)
     delete[] pivots;
 }
 
+
+void Matrix::eigenvectors()
+{
+
+}
+
 /*
 * PRIVATE MEMBER FUNCTIONS
 */

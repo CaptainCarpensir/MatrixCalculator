@@ -1,5 +1,5 @@
 # MatrixCalculator
-Making a calculator to help me with my linear algebra programming
+Making a calculator to help me with my linear algebra class
 
 Currently very functional!!!
 To-do:
@@ -11,3 +11,8 @@ To-do:
 
 Currently known bug: (Happens most often when finding the inverse)
  - When fraction multiplication gets large, numerators/denominators can overflow very quickly,  so when multiplication and division happen, I want to first simplify the fractions and then do the arithmetic
+
+ Eigenvectors:
+ Eigenvectors themselves are easy to calculate once you have the eigenvalue, but with some research, eigenvalues are very difficult to implement.
+ Need to research more about:
+ QR-Factorization of a matrix
