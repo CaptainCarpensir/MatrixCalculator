@@ -28,11 +28,11 @@ int main()
     bool prev_cleared = true;
     bool finished = false;
 
-    const int NUM_CMDS = 19;
+    const int NUM_CMDS = 21;
     const string cmds[NUM_CMDS] = 
     {
         "help", "quit", "toggleinput", "clear", "credit", "empty",
-        "add", "subtract", "multiply", "transpose", "print",
+        "add", "subtract", "multiply", "transpose", "dotproduct", "project", "print",
         "invert", "determinant", "echelon", "gaussjordan", "columnspace", "nullspace", "solvematrix", "eigenvectors"
     };
 
@@ -42,7 +42,7 @@ int main()
         help, quit, toggleinput, clear, credit, empty,
 
         //Matrix Arithmetic
-        add, subtract, multiply, transpose, print,
+        add, subtract, multiply, transpose, dotproduct, project, print,
 
         //Matrix Operations
         invert, determinant, echelon, gaussjordan, columnspace, nullspace, solvematrix, eigenvectors
@@ -155,6 +155,39 @@ int main()
                 prev_cleared = false;
                 running_matrix.transpose();
                 cout << running_matrix << endl;
+                break;
+            }
+            case dotproduct:
+            {
+                if(prev_cleared) 
+                {
+                    cout << "Enter matrix:" << endl;
+                    int n = getCols();
+                    running_matrix = fillMatrix(1, n, input_assist);
+                }
+                Matrix B;
+                cout << "Enter matrix 2:" << endl;
+                B = fillMatrix(running_matrix.n, 1, input_assist);
+                prev_cleared = false;
+                Fraction ans = running_matrix.dotproduct(B);
+                cout << ans << endl;
+                break;
+            }
+            case project:
+            {
+                if(prev_cleared) 
+                {
+                    cout << "Enter matrix:" << endl;
+                    int m = getRows();
+                    int n = getCols();
+                    running_matrix = fillMatrix(m, n, input_assist);
+                }
+                Matrix b;
+                Matrix p;
+                cout << "Enter vector:" << endl;
+                b = fillMatrix(running_matrix.m, 1, input_assist);
+                prev_cleared = false;
+                p = b.project(running_matrix);
                 break;
             }
             case print:

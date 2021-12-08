@@ -585,6 +585,58 @@ void Matrix::solvematrix(const Matrix& b)
     delete[] pivots;
 }
 
+Fraction Matrix::dotproduct(const Matrix& b)
+{
+    Fraction answer;
+
+    if(!(n == b.m && m == 1 && b.n == 1)) return answer;
+
+    for(int i = 0; i < n; i++)
+    {
+        answer += (matrix[0][i] * b.matrix[i][0]);
+    }
+
+    return answer;
+}
+
+Matrix Matrix::project(const Matrix& p)
+{
+    Matrix ans(m, n);
+
+    if(n != 1) return *this;
+
+    //Creating a list of n vectors to be added
+    Matrix *list[p.n];
+
+    //Initializing
+    for(int i = 0; i < p.n; i++)
+    {
+        list[i] = new Matrix(p.m, 1);
+    }
+
+    for(int i = 0; i < p.n; i++)
+    {
+        //Get vector for current column
+        Matrix currCol(1, p.m);
+        for(int j = 0; j < p.m; j++)
+        {
+            currCol[0][j] = p.matrix[j][i];
+        }
+
+        Fraction multiplier = currCol.dotproduct(matrix)/currCol.dotproduct(currCol.transpose());
+        for(int j = 0; j < p.m; j++)
+        {
+            list[i].matrix[j][0] = multpier * currCol[0][j];
+        }
+    }
+
+    for(int i = 0; i < p.n; i++)
+    {
+        ans = ans + list[i];
+    }
+
+    return ans;
+}
 
 void Matrix::eigenvectors()
 {

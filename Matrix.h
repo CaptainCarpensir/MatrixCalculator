@@ -71,6 +71,11 @@ class Matrix
         void solvematrix(const Matrix& b);
 
         void eigenvectors();
+
+        Fraction dotproduct(const Matrix& b);
+
+        //The columns of matrix p must be orthorogonal for this to work ATM
+        Matrix project(const Matrix& p);
     private:
         //Private Functions
         void row_replacement(int row1, int row2, Fraction k);
