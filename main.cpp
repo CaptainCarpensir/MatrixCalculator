@@ -28,12 +28,12 @@ int main()
     bool prev_cleared = true;
     bool finished = false;
 
-    const int NUM_CMDS = 21;
+    const int NUM_CMDS = 22;
     const string cmds[NUM_CMDS] = 
     {
         "help", "quit", "toggleinput", "clear", "credit", "empty",
         "add", "subtract", "multiply", "transpose", "dotproduct", "project", "print",
-        "invert", "determinant", "echelon", "gaussjordan", "columnspace", "nullspace", "solvematrix", "eigenvectors"
+        "invert", "determinant", "echelon", "gaussjordan", "columnspace", "nullspace", "solvematrix", "gramschmidt", "eigenvectors"
     };
 
     enum Command
@@ -45,7 +45,7 @@ int main()
         add, subtract, multiply, transpose, dotproduct, project, print,
 
         //Matrix Operations
-        invert, determinant, echelon, gaussjordan, columnspace, nullspace, solvematrix, eigenvectors
+        invert, determinant, echelon, gaussjordan, columnspace, nullspace, solvematrix, gramschmidt, eigenvectors
     };
 
     //Entering the program
@@ -153,7 +153,7 @@ int main()
                     running_matrix = fillMatrix(m, n, input_assist);
                 }
                 prev_cleared = false;
-                running_matrix.transpose();
+                running_matrix = running_matrix.transpose();
                 cout << running_matrix << endl;
                 break;
             }
@@ -188,6 +188,7 @@ int main()
                 b = fillMatrix(running_matrix.m, 1, input_assist);
                 prev_cleared = false;
                 p = b.project(running_matrix);
+				cout << p << endl;
                 break;
             }
             case print:

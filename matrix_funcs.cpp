@@ -204,7 +204,7 @@ Matrix Matrix::operator-(const Matrix& A) const
     return answer;
 }
 
-void Matrix::transpose()
+Matrix Matrix::transpose()
 {
     Matrix temp(n,m);
 
@@ -216,7 +216,7 @@ void Matrix::transpose()
         }
     }
 
-    *this = temp;
+    return temp;
 }
 
 bool Matrix::invert()
@@ -620,22 +620,31 @@ Matrix Matrix::project(const Matrix& p)
         Matrix currCol(1, p.m);
         for(int j = 0; j < p.m; j++)
         {
-            currCol[0][j] = p.matrix[j][i];
+            currCol.matrix[0][j] = p.matrix[j][i];
         }
 
-        Fraction multiplier = currCol.dotproduct(matrix)/currCol.dotproduct(currCol.transpose());
+		Matrix colTranspose;
+		colTranspose = currCol.transpose();
+        Fraction multiplier = currCol.dotproduct(*this)/currCol.dotproduct(currCol.transpose());
         for(int j = 0; j < p.m; j++)
         {
-            list[i].matrix[j][0] = multpier * currCol[0][j];
+            list[i]->matrix[j][0] = multiplier * currCol.matrix[0][j];
         }
     }
 
     for(int i = 0; i < p.n; i++)
     {
-        ans = ans + list[i];
+        ans = (ans + *list[i]);
     }
 
+	delete[] list;
+
     return ans;
+}
+
+void Matrix::gramschmidt()
+{
+
 }
 
 void Matrix::eigenvectors()

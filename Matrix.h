@@ -52,7 +52,7 @@ class Matrix
         Matrix operator*(const Fraction val) const;
 
         //Matrix operations
-        void transpose();
+        Matrix transpose();
 
         bool invert();
 
@@ -76,6 +76,8 @@ class Matrix
 
         //The columns of matrix p must be orthorogonal for this to work ATM
         Matrix project(const Matrix& p);
+
+		void gramschmidt();
     private:
         //Private Functions
         void row_replacement(int row1, int row2, Fraction k);
