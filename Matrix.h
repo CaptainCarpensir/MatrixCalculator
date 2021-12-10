@@ -5,11 +5,12 @@
 #include "Fraction.h"
 using namespace std;
 
+template <typename T>
 class Matrix
 {
     private:
         //Vars
-        Fraction** matrix;
+        T** matrix;
     public:
         //Matrix Width and Height
         int m; //Rows
@@ -19,72 +20,76 @@ class Matrix
         Matrix();
 
         //Constructor
-        Matrix(int rows, int cols);
+        Matrix(const int rows, const int cols);
 
         //Copy Constructor
-        Matrix(Matrix& A);
+        Matrix(const Matrix<T>& A);
 
         //Destructor
         ~Matrix();
 
         //Assignment operator overload
-        void operator=(const Matrix& A);
+        Matrix<T>& operator=(const Matrix<T>& A);
 
         //Operator overload to print
-        friend ostream& operator<<(ostream& os, const Matrix& matrix);
+        friend ostream& operator<<(ostream& os, const Matrix<T>& matrix);
     
         /*
         * MEMBER FUNCTIONS & MATRIX ARITHMETIC
         */
-        void insertVal(Fraction val, int row, int col);
+        void insertVal(T& val, int row, int col);
 
-        void insertVal(int val, int row, int col);
-
-        Fraction getVal(int row, int col) const;
+        T& getVal(int row, int col) const;
 
         //Arithmetic matrix operations
-        Matrix operator+(const Matrix& A) const;
+        Matrix<T>& operator+(const Matrix<T>& A);
 
-        Matrix operator-(const Matrix& A) const;
+        Matrix<T>& operator-(const Matrix<T>& A);
 
-        Matrix operator*(const Matrix& A) const;
+        Matrix<T>& operator*(const Matrix<T>& A);
 
-        Matrix operator*(const Fraction val) const;
+        Matrix<T>& operator*(const T& val);
 
         //Matrix operations
-        Matrix transpose();
+        void transpose();
 
         bool invert();
 
         void gaussjordan();
 
-        Fraction determinant();
+        T determinant();
 
         int rowechelon();
 
-        void augmentmatrix(const Matrix& A);
-
-        void columnspace();
-
-        void nullspace();
-
-        void solvematrix(const Matrix& b);
+        void augmentmatrix(const Matrix<T>& A);
 
         void eigenvectors();
 
-        Fraction dotproduct(const Matrix& b);
+        T dotproduct(const Matrix<T>& b);
 
         //The columns of matrix p must be orthorogonal for this to work ATM
-        Matrix project(const Matrix& p);
+        Matrix<T>& project(const Matrix<T>& p);
 
 		void gramschmidt();
+
+		/*
+		*	Prints results, doesn't affect calling object
+		*/
+		void columnspace() const;
+
+        void nullspace() const;
+
+		void solvematrix(const Matrix<T>& b) const;
+
     private:
         //Private Functions
-        void row_replacement(int row1, int row2, Fraction k);
+        void row_replacement(const int row1, const int row2, const T& k);
 
-        void row_interchange(int row1, int row2);
+        void row_interchange(const int row1, const int row2);
 
-        void row_scaling(int row1, Fraction k);
+        void row_scaling(const int row1, const T& k);
 };
+
+#include "matrix_funcs.hpp"
 
 #endif

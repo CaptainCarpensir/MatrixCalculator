@@ -13,6 +13,9 @@ class Fraction
         //Default Constructor
         Fraction();
 
+		//Constructor w/ 1 value
+		Fraction(long long numerator);
+
         //Constrict w/ values
         Fraction(long long numerator, long long denominator);
 

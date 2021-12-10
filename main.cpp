@@ -8,7 +8,7 @@ using namespace std;
 /*
 * Prototypes
 */
-Matrix fillMatrix(int m, int n, bool input_assist);
+Matrix<Fraction> fillMatrix(int m, int n, bool input_assist);
 
 int getRows();
 
@@ -23,7 +23,7 @@ static bool input_assist = true;
 int main()
 {
     //Variables
-    Matrix running_matrix(1,1);
+    Matrix<Fraction> running_matrix(1,1);
     string input;
     bool prev_cleared = true;
     bool finished = false;
@@ -91,8 +91,8 @@ int main()
                 else{
                     cout << "Matrix 1:\n" << running_matrix << endl;
                 }
-                Matrix A = running_matrix;
-                Matrix B;
+                Matrix<Fraction> A = running_matrix;
+                Matrix<Fraction> B;
                 cout << "Enter matrix 2:" << endl;
                 B = fillMatrix(A.m, A.n, input_assist);
                 prev_cleared = false;
@@ -112,8 +112,8 @@ int main()
                 else{
                     cout << "Matrix 1:\n" << running_matrix << endl;
                 }
-                Matrix A = running_matrix;
-                Matrix B;
+                Matrix<Fraction> A = running_matrix;
+                Matrix<Fraction> B;
                 cout << "Enter matrix 2:" << endl;
                 B = fillMatrix(A.m, A.n, input_assist);
                 prev_cleared = false;
@@ -133,8 +133,8 @@ int main()
                 else{
                     cout << "Matrix 1:\n" << running_matrix << endl;
                 }
-                Matrix A = running_matrix;
-                Matrix B;
+                Matrix<Fraction> A = running_matrix;
+                Matrix<Fraction> B;
                 cout << "Enter matrix 2:" << endl;
                 int n = getCols();
                 B = fillMatrix(A.n, n, input_assist);
@@ -153,7 +153,7 @@ int main()
                     running_matrix = fillMatrix(m, n, input_assist);
                 }
                 prev_cleared = false;
-                running_matrix = running_matrix.transpose();
+                running_matrix.transpose();
                 cout << running_matrix << endl;
                 break;
             }
@@ -165,7 +165,7 @@ int main()
                     int n = getCols();
                     running_matrix = fillMatrix(1, n, input_assist);
                 }
-                Matrix B;
+                Matrix<Fraction> B;
                 cout << "Enter matrix 2:" << endl;
                 B = fillMatrix(running_matrix.n, 1, input_assist);
                 prev_cleared = false;
@@ -182,8 +182,8 @@ int main()
                     int n = getCols();
                     running_matrix = fillMatrix(m, n, input_assist);
                 }
-                Matrix b;
-                Matrix p;
+                Matrix<Fraction> b;
+                Matrix<Fraction> p;
                 cout << "Enter vector:" << endl;
                 b = fillMatrix(running_matrix.m, 1, input_assist);
                 prev_cleared = false;
@@ -302,7 +302,7 @@ int main()
                     int n = getCols();
                     running_matrix = fillMatrix(m, n, input_assist);
                 }
-                Matrix b;
+                Matrix<Fraction> b;
                 cout << "Enter vector:" << endl;
                 b = fillMatrix(running_matrix.m, 1, input_assist);
                 prev_cleared = false;
@@ -366,9 +366,10 @@ int main()
 */
 
 //Fills a matrix of size M x N based off of standard input stream
-Matrix fillMatrix(int m, int n, bool input_assist)
+//Only fills matrices templated with fraction
+Matrix<Fraction> fillMatrix(int m, int n, bool input_assist)
 {
-    Matrix A(m,n);
+    Matrix<Fraction> A(m,n);
 
     for(int i = 0; i < m; i++)
     {

@@ -13,6 +13,13 @@ Fraction::Fraction()
     den = 1;
 }
 
+//Constructor w/ 1 value
+Fraction::Fraction(long long numerator)
+{
+    num = numerator;
+    den = 1;
+}
+
 //Constrict w/ values
 Fraction::Fraction(long long numerator, long long denominator)
 {
