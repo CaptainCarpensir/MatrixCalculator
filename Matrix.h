@@ -2,8 +2,13 @@
 #define MATRIX_H
 
 #include <iostream>
-#include "Fraction.h"
 using namespace std;
+
+template <typename T>
+class Matrix;
+
+template <typename T>
+ostream& operator<<(ostream&, const Matrix<T>&);
 
 template <typename T>
 class Matrix
@@ -32,7 +37,7 @@ class Matrix
         Matrix<T>& operator=(const Matrix<T>& A);
 
         //Operator overload to print
-        friend ostream& operator<<(ostream& os, const Matrix<T>& matrix);
+        friend ostream& operator<< <T> (ostream& os, const Matrix<T>& matrix);
     
         /*
         * MEMBER FUNCTIONS & MATRIX ARITHMETIC
