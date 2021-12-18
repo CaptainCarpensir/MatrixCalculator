@@ -10,7 +10,7 @@ To-do:
 5. Work on a potential GUI?!?!
 
 Currently known bug: (Happens most often when finding the inverse)
- - When fraction multiplication gets large, numerators/denominators can overflow very quickly, so when multiplication and division happen
+ - When fraction multiplication gets large, numerators/denominators can overflow very quickly, causing the function to return incorrect results. Ideally, I'd like to reduce this from happening, but I think I've done the most I can. More importantly, I need to establish exception handling for this.
 
 --- THOUGHTS ---
 First, this wouldn't be too bad to fix (Is now fixed :P), but when researching eigenvectors, I recognized that there would be no way I could avoid using radicals in the matrix. If I had made the matrix, and probably even the fraction class templated, I may have been able to actually make these adjustments quickly. This makes me recognize how important it is for data structures to be built with general usage in mind, and not with an exact value. I even changed from using floats in the matrix to using the custom made Fraction class half way through. This change would have been seamless had I originally built it using a templated class.

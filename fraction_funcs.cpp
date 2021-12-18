@@ -223,24 +223,28 @@ Fraction Fraction::operator/(const Fraction& frac) const
 }
 
 //More Operators
-void Fraction::operator+=(const Fraction& frac)
+Fraction& Fraction::operator+=(const Fraction& frac)
 {
     *this = *this + frac;
+	return *this;
 }
 
-void Fraction::operator-=(const Fraction& frac)
+Fraction& Fraction::operator-=(const Fraction& frac)
 {
     *this = *this - frac;
+	return *this;
 }
 
-void Fraction::operator*=(const Fraction& frac)
+Fraction& Fraction::operator*=(const Fraction& frac)
 {
     *this = *this * frac;
+	return *this;
 }
 
-void Fraction::operator/=(const Fraction& frac)
+Fraction& Fraction::operator/=(const Fraction& frac)
 {
     *this = *this / frac;
+	return *this;
 }
 
 //Negative operator

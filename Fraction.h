@@ -59,13 +59,13 @@ class Fraction
         Fraction operator/(const Fraction& frac) const;
 
         //More Operators
-        void operator+=(const Fraction& frac);
+        Fraction& operator+=(const Fraction& frac);
 
-        void operator-=(const Fraction& frac);
+        Fraction& operator-=(const Fraction& frac);
 
-        void operator*=(const Fraction& frac);
+        Fraction& operator*=(const Fraction& frac);
 
-        void operator/=(const Fraction& frac);
+        Fraction& operator/=(const Fraction& frac);
 
         //Negative operator
         Fraction operator-();
